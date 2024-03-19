@@ -1,0 +1,14 @@
+python-dotenv~=1.0.0
+langchain~=0.1.0
+openai
+google-api-python-client # Google API
+google-search-results # SerpAPI
+youtube-transcript-api
+chromadb
+tiktoken
+faiss-cpu
+wikipedia
+psycopg2
+pinecone-client
+pgvector
+nltk~=3.8.1

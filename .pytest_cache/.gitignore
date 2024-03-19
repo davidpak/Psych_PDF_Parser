@@ -1,0 +1,5 @@
+# Ignore .env files
+.env
+
+test1.pdf
+test2.pdf

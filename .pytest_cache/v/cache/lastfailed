@@ -1,0 +1,7 @@
+{
+  "test.py::test_create_db_from_youtube_video_url": true,
+  "test.py::test_empty_transcript": true,
+  "test.py::test_create_db_from_pptx_invalid_path": true,
+  "test.py::test_create_db_from_pdf_empty_content": true,
+  "test.py::test_create_db_from_pdf_large_content": true
+}

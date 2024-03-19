@@ -1,0 +1,13 @@
+[
+  "test.py::test_create_db_from_pdf_empty_content",
+  "test.py::test_create_db_from_pdf_invalid_path",
+  "test.py::test_create_db_from_pdf_large_content",
+  "test.py::test_create_db_from_pdf_valid_input",
+  "test.py::test_create_db_from_pptx_invalid_path",
+  "test.py::test_create_db_from_pptx_valid_input",
+  "test.py::test_create_db_from_youtube_video_url",
+  "test.py::test_empty_transcript",
+  "test.py::test_invalid_youtube_url",
+  "test.py::test_large_transcript",
+  "test.py::test_valid_input"
+]

@@ -1,0 +1,13 @@
+"questions/statements,survey_name,psychological_facet,facet_num,date,test_format
+Have you ever thought about or attempted to kill yourself?,Suicidal Affect-Behavior-Cognition Scale,Suicidal Ideation,1,2015,Inventory/Questionnaire
+How often have you thought about killing yourself in the past year?,Suicidal Affect-Behavior-Cognition Scale,Suicidal Ideation,1,2015,Inventory/Questionnaire
+In the past year, have you had an internal debate/argument (in your head) about whether to live?,Suicidal Affect-Behavior-Cognition Scale,Internal Conflict,2,2015,Inventory/Questionnaire
+Right now, how much do you wish to live?,Suicidal Affect-Behavior-Cognition Scale,Desire to Live,3,2015,Inventory/Questionnaire
+Right now, how much do you wish to die?,Suicidal Affect-Behavior-Cognition Scale,Desire to Die,4,2015,Inventory/Questionnaire
+How likely is it that you will attempt suicide someday?,Suicidal Affect-Behavior-Cognition Scale,Suicidal Intent,5,2015,Inventory/Questionnaire"questions/statements,survey_name,psychological_facet,facet_num,date,test_format
+"Have you ever thought about or attempted to kill yourself?",Suicidal Affect-Behavior-Cognition Scale,Suicidal Thoughts,1,2015,Inventory/Questionnaire
+"How often have you thought about killing yourself in the past year?",Suicidal Affect-Behavior-Cognition Scale,Suicidal Thoughts,1,2015,Inventory/Questionnaire
+"In the past year, have you had an internal debate/argument (in your head) about whether to live?",Suicidal Affect-Behavior-Cognition Scale,Suicidal Thoughts,1,2015,Inventory/Questionnaire
+"Right now, how much do you wish to live?",Suicidal Affect-Behavior-Cognition Scale,Desire to Live,2,2015,Inventory/Questionnaire
+"Right now, how much do you wish to die?",Suicidal Affect-Behavior-Cognition Scale,Desire to Die,3,2015,Inventory/Questionnaire
+"How likely is it that you will attempt suicide someday?",Suicidal Affect-Behavior-Cognition Scale,Suicidal Intent,4,2015,Inventory/Questionnaire
