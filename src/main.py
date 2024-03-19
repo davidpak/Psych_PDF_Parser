@@ -1,16 +1,12 @@
 import sys
 import os
-from typing import Union, List
-from urllib.parse import urlparse
-from cmdline import Switch, parse
 
-from langchain_community.document_loaders import YoutubeLoader
-from langchain_community.document_loaders import UnstructuredPowerPointLoader
+from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.chains import LLMChain
 from dotenv import find_dotenv, load_dotenv
 from langchain.prompts.chat import (
@@ -24,39 +20,8 @@ load_dotenv(find_dotenv())
 embeddings = OpenAIEmbeddings()
 
 
-def create_db_from_youtube_video_url(video_url):
-    loader = YoutubeLoader.from_youtube_url(video_url)
-    transcript = loader.load()
-
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=100)
-    docs = text_splitter.split_documents(transcript)
-
-    db = FAISS.from_documents(docs, embeddings)
-    return db, docs
-
-
-def extract_youtube_link_from_file(file_path):
-    try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            content = file.read().strip()
-            return content
-    except Exception as e:
-        print(f"Error reading file: {e}")
-        sys.exit(1)
-
-
-def is_youtube_link(input_str):
-    # Check if the input string is a valid YouTube link
-    parsed_url = urlparse(input_str)
-    return (
-            parsed_url.netloc == "www.youtube.com"
-            and "/watch" in parsed_url.path
-            and "v=" in parsed_url.query
-    )
-
-
-def create_db_from_powerpoint_file(pptx_file):
-    loader = UnstructuredPowerPointLoader(pptx_file)
+def create_db_from_csv_file(csv_file):
+    loader = CSVLoader(csv_file)
     data = loader.load()
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=100)
@@ -84,9 +49,9 @@ def get_response_from_query(db, query, k=4):
     chat = ChatOpenAI(model_name="gpt-4", temperature=0.2)
 
     # Template to use for the system message prompt
-    template = """
+    template = f"""
         You are a helpful assistant that that provides metadata on pdfs regarding psychology research surveys
-         using this transcript: {docs}.
+         using this transcript: {docs_page_content}.
 
         Every question in the survey will be categorized under a psychological facet. Make sure to properly
         categorize each question with the proper facet, usually given by the subheader, and assign each facet a number.
@@ -114,37 +79,27 @@ def get_response_from_query(db, query, k=4):
 
 def process_file(file_path):
     _, ext = os.path.splitext(file_path)
+    csv_path = "../out/output.csv"
+    # db_csv, docs_csv = create_db_from_csv_file(csv_path)
+    # csv_content = " ".join([d.page_content for d in docs_csv])
 
-    if ext == ".pptx":
-        db, docs = create_db_from_powerpoint_file(file_path)
-    elif ext == ".pdf":
+    if ext == ".pdf":
         db, docs = create_db_from_pdf(file_path)
-    elif ext == '.txt':
-        input_str = extract_youtube_link_from_file(file_path)
-        if is_youtube_link(input_str):
-            try:
-                db, docs = create_db_from_youtube_video_url(input_str)
-            except Exception as e:
-                print(f"Error processing YouTube link: {e}")
-                sys.exit(1)
-        else:
-            raise Exception(f"Invalid YouTube link in the file: {file_path}")
     else:
         raise Exception(f"Unsupported file type: {ext}")
 
-    query = """
+    query = f"""
         Provide all of the necessary metadata from this pdf containing information regarding
         results from psychology surveys. Put all of the metadata into a csv format suitable for 
-        microsoft excel. The format of the csv should look like this: 
+        microsoft excel. The csv currently looks like this: 
         
         questions/statements,survey_name,psychological_facet,facet_num,date,test_format
-        question1,name,ex_facet,2,01/04/24,ex_format
         .
         .
         .
         
-        Make sure to include the column labels. If the csv already has the columns properly labeled in the first row,
-        do not write the column labels again.
+        Do not write the column labels, just write the corresponding metadata from the PDF into its respective column. End
+        the output with a newline.
     """
 
     response, docs = get_response_from_query(db, query)
